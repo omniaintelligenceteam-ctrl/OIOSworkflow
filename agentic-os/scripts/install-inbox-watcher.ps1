@@ -1,4 +1,4 @@
-# Agentic OS Inbox Watcher Installer — Windows Task Scheduler
+# Agentic OS Inbox Watcher Installer - Windows Task Scheduler
 # Runs inbox-watcher.ps1 every 10 minutes to process OpenClaw requests.
 
 param(
@@ -65,11 +65,11 @@ $action = New-ScheduledTaskAction `
 
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) `
     -RepetitionInterval (New-TimeSpan -Minutes $IntervalMinutes) `
-    -RepetitionDuration ([TimeSpan]::MaxValue)
+    -RepetitionDuration (New-TimeSpan -Days 365)
 
 $principal = New-ScheduledTaskPrincipal `
     -UserId $env:USERNAME `
-    -LogonType InteractiveToken `
+    -LogonType Interactive `
     -RunLevel Limited
 
 $settings = New-ScheduledTaskSettingsSet `
@@ -86,7 +86,7 @@ Register-ScheduledTask `
     -Trigger $trigger `
     -Principal $principal `
     -Settings $settings `
-    -Description "Agentic OS inbox watcher — processes OpenClaw requests every $IntervalMinutes min" | Out-Null
+    -Description "Agentic OS inbox watcher - processes OpenClaw requests every $IntervalMinutes min" | Out-Null
 
 Write-Host ""
 Write-Host "Inbox watcher installed and running."
@@ -96,4 +96,4 @@ Write-Host "  Task name:       $TaskName"
 Write-Host "  Logs:            $LogsDir\inbox-watcher.log"
 Write-Host ""
 Write-Host "To trigger immediately:  Start-ScheduledTask -TaskName '$TaskName'"
-Write-Host "To uninstall:            powershell $RepoDir\scripts\uninstall-inbox-watcher.ps1"
+Write-Host "To uninstall:            powershell $(Join-Path $RepoDir 'scripts\uninstall-inbox-watcher.ps1')"
