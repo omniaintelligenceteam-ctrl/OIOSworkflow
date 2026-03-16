@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oios.local/schemas/action.schema.json",
+  "title": "Agentic OS Action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "action",
+    "content",
+    "media",
+    "priority",
+    "created_at",
+    "created_by",
+    "approval_required",
+    "status",
+    "retries",
+    "execution_key"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^act_[0-9]{10}_[a-f0-9]{6}$"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "post_linkedin",
+        "post_x",
+        "post_tiktok",
+        "send_email",
+        "update_crm",
+        "schedule_calendar",
+        "send_message"
+      ]
+    },
+    "content": { "type": "string", "minLength": 1 },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "path"],
+        "properties": {
+          "type": { "type": "string", "enum": ["image", "video", "file"] },
+          "path": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "priority": { "type": "string", "enum": ["low", "normal", "high", "urgent"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by": { "type": "string", "minLength": 1 },
+    "approval_required": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["pending", "processing", "completed", "failed"] },
+    "error": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message", "at", "retryable"],
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "at": { "type": "string", "format": "date-time" },
+            "retryable": { "type": "boolean" }
+          }
+        }
+      ]
+    },
+    "retries": { "type": "integer", "minimum": 0, "maximum": 10 },
+    "execution_key": { "type": "string", "minLength": 16 },
+    "signature": { "type": "string", "minLength": 16 },
+    "locked_by": { "oneOf": [{ "type": "null" }, { "type": "string" }] },
+    "locked_at": { "oneOf": [{ "type": "null" }, { "type": "string", "format": "date-time" }] },
+    "lease_expires_at": { "oneOf": [{ "type": "null" }, { "type": "string", "format": "date-time" }] }
+  }
+}

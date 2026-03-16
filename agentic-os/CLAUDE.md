@@ -170,6 +170,13 @@ Every skill and its output folder uses a category prefix. This keeps skills, out
 | `mkt-positioning` | "differentiation", "angle", "hooks", "USP" | `positioning.md` |
 | `mkt-icp` | "target audience", "buyer persona", "ideal customer" | `icp.md` |
 
+### Operations Skills
+
+| Skill | Triggers on |
+|-------|------------|
+| `ops-cron` | "schedule a job", "cron job", "run this every morning", "recurring task" |
+| `ops-outbox` | "send to outbox", "queue action", "post this to linkedin", "check outbox", "outbox status", "what's pending" |
+
 *Optional skills are auto-registered by the Heartbeat reconciliation when their folders appear on disk. Install optional skills with `bash scripts/add-skill.sh <name>`. See `.claude/skills/_catalog/catalog.json` for the full list.*
 
 *Add new skills to this table when built and registered.*
@@ -186,6 +193,8 @@ Which `brand_context/` files each skill reads. Load only what's listed — no sk
 | `mkt-positioning` | — | **writes** | full | — | — | `## mkt-positioning` |
 | `mkt-icp` | — | summary | **writes** | — | — | `## mkt-icp` |
 | `meta-wrap-up` | — | — | — | — | — | `## meta-wrap-up` |
+| `ops-cron` | — | — | — | — | — | `## ops-cron` |
+| `ops-outbox` | — | — | — | — | — | `## ops-outbox` |
 
 *Optional skills auto-add their row here via Heartbeat reconciliation when installed. New skills declare their own row when added.*
 

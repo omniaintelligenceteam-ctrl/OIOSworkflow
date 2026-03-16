@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oios.local/schemas/inbox.schema.json",
+  "title": "OpenClaw Inbox Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "request",
+    "skill_hint",
+    "requested_by",
+    "requested_at",
+    "priority",
+    "status",
+    "source_channel",
+    "source_user"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.[0-9]+$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^req_[0-9]{10}_[a-f0-9]{6}$"
+    },
+    "request": { "type": "string", "minLength": 1, "maxLength": 8000 },
+    "skill_hint": { "type": "string", "pattern": "^[a-z0-9][a-z0-9\\-]{1,63}$" },
+    "requested_by": { "type": "string", "minLength": 1 },
+    "requested_at": { "type": "string", "format": "date-time" },
+    "priority": { "type": "string", "enum": ["low", "normal", "high", "urgent"] },
+    "status": { "type": "string", "enum": ["pending", "processing", "done", "rate_limited", "error"] },
+    "source_channel": { "type": "string", "enum": ["discord", "telegram"] },
+    "source_user": { "type": "string", "minLength": 1 },
+    "error": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message", "at", "retryable"],
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "at": { "type": "string", "format": "date-time" },
+            "retryable": { "type": "boolean" }
+          }
+        }
+      ]
+    }
+  }
+}

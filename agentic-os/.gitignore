@@ -23,3 +23,24 @@ brand_context/*.md
 
 # Cron logs
 cron/logs/
+
+# Outbox runtime data (config/ is committed as client template)
+outbox/actions/pending/*
+!outbox/actions/pending/.gitkeep
+outbox/actions/processing/*
+!outbox/actions/processing/.gitkeep
+outbox/actions/completed/*
+!outbox/actions/completed/.gitkeep
+outbox/actions/failed/*
+!outbox/actions/failed/.gitkeep
+outbox/inbox/pending/*
+!outbox/inbox/pending/.gitkeep
+outbox/inbox/processing/*
+!outbox/inbox/processing/.gitkeep
+outbox/inbox/done/*
+!outbox/inbox/done/.gitkeep
+outbox/status/*.json
+!outbox/status/.gitkeep
+
+# Inbox watcher logs
+logs/

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oios.local/schemas/daily-summary.schema.json",
+  "title": "Daily Summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "date",
+    "generated_at",
+    "content",
+    "actions",
+    "inbox",
+    "highlights",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\.[0-9]+$" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["posts_published", "posts_pending", "content_generated"],
+      "properties": {
+        "posts_published": { "type": "integer", "minimum": 0 },
+        "posts_pending": { "type": "integer", "minimum": 0 },
+        "content_generated": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["completed", "failed", "pending"],
+      "properties": {
+        "completed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "pending": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "inbox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requests_received", "requests_processed"],
+      "properties": {
+        "requests_received": { "type": "integer", "minimum": 0 },
+        "requests_processed": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "highlights": { "type": "array", "items": { "type": "string" } },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "at"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "at": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-03-16T00:00:00Z",
+  "default_policy": {
+    "approval_required": true,
+    "approval_timeout_minutes": 720
+  },
+  "action_overrides": {
+    "post_linkedin": {
+      "approval_required": false
+    },
+    "post_x": {
+      "approval_required": false
+    },
+    "post_tiktok": {
+      "approval_required": false
+    },
+    "send_email": {
+      "approval_required": true,
+      "approval_timeout_minutes": 720
+    },
+    "update_crm": {
+      "approval_required": false
+    },
+    "schedule_calendar": {
+      "approval_required": true,
+      "approval_timeout_minutes": 720
+    },
+    "send_message": {
+      "approval_required": true,
+      "approval_timeout_minutes": 720
+    }
+  },
+  "high_risk_rules": {
+    "require_approval_if_contains": [
+      "wire transfer",
+      "bank",
+      "password",
+      "credential",
+      "delete",
+      "cancel contract",
+      "legal"
+    ],
+    "force_approval_for_priorities": [
+      "urgent"
+    ]
+  }
+}
