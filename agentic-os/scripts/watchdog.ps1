@@ -1,4 +1,4 @@
-# Agentic OS Watchdog — Windows version
+# Agentic OS Watchdog - Windows version
 # Runs scheduled jobs outside Claude Code sessions via Task Scheduler.
 
 $ErrorActionPreference = "Stop"

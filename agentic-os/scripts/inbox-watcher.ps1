@@ -82,7 +82,7 @@ function IsRateLimited($limits) {
   $rate = ReadJson $rateFile
   $currentHour = (Get-Date).Hour
   if ($rate.hour -ne $currentHour) {
-    # New hour — reset counter
+    # New hour - reset counter
     @{ hour = $currentHour; count = 0 } | ConvertTo-Json | Set-Content $rateFile
     return $false
   }
@@ -148,7 +148,7 @@ function CleanStuckProcessing($limits) {
   if (!(Test-Path $_)) { New-Item -ItemType Directory -Path $_ -Force | Out-Null }
 }
 
-# Lock check — prevent overlapping runs
+# Lock check - prevent overlapping runs
 if (Test-Path $lockFile) {
   $oldPid = Get-Content $lockFile -ErrorAction SilentlyContinue
   if ($oldPid -and (Get-Process -Id $oldPid -ErrorAction SilentlyContinue)) {
@@ -201,7 +201,7 @@ try {
         continue
       }
 
-      # Claim the request — move to processing
+      # Claim the request - move to processing
       $processingPath = Join-Path $inboxProc $file.Name
       Move-Item -Path $file.FullName -Destination $processingPath -Force
 

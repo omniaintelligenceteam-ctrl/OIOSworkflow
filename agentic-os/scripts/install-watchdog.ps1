@@ -1,4 +1,4 @@
-# Agentic OS Watchdog Installer — Windows Task Scheduler
+# Agentic OS Watchdog Installer - Windows Task Scheduler
 # Runs watchdog.ps1 every hour in the background, even when Claude Code is closed.
 
 $ErrorActionPreference = "Stop"
@@ -69,7 +69,7 @@ Register-ScheduledTask `
     -Action $action `
     -Trigger $trigger `
     -Settings $settings `
-    -Description "Agentic OS — runs scheduled Claude Code jobs" | Out-Null
+    -Description "Agentic OS - runs scheduled Claude Code jobs" | Out-Null
 
 Write-Host ""
 Write-Host "Watchdog installed and running."
@@ -79,4 +79,4 @@ Write-Host "  Task name: $TaskName"
 Write-Host "  Logs: $LogsDir\watchdog-*.log"
 Write-Host ""
 Write-Host "To trigger immediately:  Start-ScheduledTask -TaskName '$TaskName'"
-Write-Host "To uninstall:            powershell $RepoDir\scripts\uninstall-watchdog.ps1"
+Write-Host "To uninstall:            powershell $(Join-Path $RepoDir 'scripts\uninstall-watchdog.ps1')"

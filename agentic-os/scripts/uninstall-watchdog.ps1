@@ -1,4 +1,4 @@
-# Agentic OS Watchdog Uninstaller — removes from Windows Task Scheduler
+# Agentic OS Watchdog Uninstaller - removes from Windows Task Scheduler
 # Job files in cron/jobs/ are NOT deleted.
 
 $TaskName = "AgenticOS-Watchdog"
