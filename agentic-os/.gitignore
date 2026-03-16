@@ -1,0 +1,25 @@
+# Secrets
+.env
+.mcp.json
+
+# User data (created per-install)
+context/memory/*
+!context/memory/.gitkeep
+projects/*
+!projects/.gitkeep
+brand_context/*.md
+
+# Installer state
+.claude/skills/_catalog/installed.json
+
+# Local settings
+.claude/settings.local.json
+.claude/hooks_info/ccnotify.db
+.claude/hooks_info/ccnotify.log*
+
+# System
+.DS_Store
+.backup/
+
+# Cron logs
+cron/logs/
