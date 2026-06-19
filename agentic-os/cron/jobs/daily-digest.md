@@ -42,13 +42,27 @@ Task: Compile the daily outbox activity summary.
        "requests_processed": 0
      },
      "highlights": [],
-     "errors": []
+     "errors": [],
+     "health": {
+       "status": "unknown",
+       "checked_at": null,
+       "stale_after_hours": 6
+     }
    }
    ```
 
 4. Update counts from the file scans. Preserve existing `highlights` entries.
 
 5. Extract errors from today's failed action files and add to `errors` array.
+
+5b. Freshness + health mirror (IMPORTANT — this is what the independent health
+   monitor and anyone opening the file rely on):
+   - Set `generated_at` to the **current** ISO 8601 timestamp on every run.
+   - Read `cron/health.json` if it exists and copy its `status`, `checked_at`,
+     and `stale_after_hours` into the summary's `health` block. If it is absent,
+     leave `health.status` = `"unknown"`.
+   - If `health.status` is not `"green"`, prepend its `reasons` to `highlights`
+     so the degradation is visible at a glance.
 
 6. Purge old files:
    - Delete files in `outbox/actions/completed/` older than 30 days

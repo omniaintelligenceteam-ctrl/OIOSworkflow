@@ -5,3 +5,9 @@ node_modules/
 dist/
 .DS_Store
 .claude/
+
+# Agentic OS runtime state (machine-local, volatile)
+agentic-os/cron/health.json
+agentic-os/cron/heartbeat.*.json
+agentic-os/cron/watchdog.state.json
+agentic-os/cron/platform_log.jsonl

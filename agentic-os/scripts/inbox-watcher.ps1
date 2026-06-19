@@ -1,5 +1,5 @@
 # Agentic OS Inbox Watcher
-# Polls outbox/inbox/pending/ for OpenClaw requests and routes them to skills.
+# Polls outbox/inbox/pending/ for inbox requests and routes them to skills.
 # Runs as a dedicated Task Scheduler job every 10 minutes.
 
 param(
@@ -21,6 +21,7 @@ $logDir        = Join-Path $Root "logs"
 $logFile       = Join-Path $logDir "inbox-watcher.log"
 $lockFile      = Join-Path $outbox "inbox\.watcher.lock"
 $rateFile      = Join-Path $logDir "inbox-watcher-rate.json"
+$heartbeatFile = Join-Path $Root "cron\heartbeat.inbox.json"
 
 # --- Helpers ---
 function Log($msg) {
@@ -161,6 +162,14 @@ if (Test-Path $lockFile) {
 
 $PID | Out-File $lockFile -Force
 
+# Liveness heartbeat (written on every invocation that acquires the lock)
+try {
+  New-Item -ItemType Directory -Path (Split-Path $heartbeatFile) -Force | Out-Null
+  $hbTmp = "$heartbeatFile.tmp"
+  @{ task = "AgenticOS-InboxWatcher"; last_run_iso = (Get-Date).ToString("o"); pid = $PID } | ConvertTo-Json | Set-Content -Path $hbTmp -Encoding UTF8
+  Move-Item -Path $hbTmp -Destination $heartbeatFile -Force
+} catch { }
+
 try {
   # Check claude CLI
   if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
@@ -233,7 +242,7 @@ try {
       # Execute claude with timeout, reading prompt from temp file
       $psi = New-Object System.Diagnostics.ProcessStartInfo
       $psi.FileName = "claude"
-      $psi.Arguments = "-p --max-turns $maxTurns --allowedTools `"Read,Write,Edit,Bash,Glob,Grep,WebSearch,WebFetch`""
+      $psi.Arguments = "-p --max-turns $maxTurns --permission-mode bypassPermissions --allowedTools `"Read,Write,Edit,Bash,Glob,Grep,WebSearch,WebFetch`""
       $psi.RedirectStandardInput = $true
       $psi.RedirectStandardOutput = $true
       $psi.RedirectStandardError = $true

@@ -1,5 +1,5 @@
 # Agentic OS Inbox Watcher Installer - Windows Task Scheduler
-# Runs inbox-watcher.ps1 every 10 minutes to process OpenClaw requests.
+# Runs inbox-watcher.ps1 every 10 minutes to process inbox requests.
 
 param(
   [int]$IntervalMinutes = 10
@@ -86,7 +86,7 @@ Register-ScheduledTask `
     -Trigger $trigger `
     -Principal $principal `
     -Settings $settings `
-    -Description "Agentic OS inbox watcher - processes OpenClaw requests every $IntervalMinutes min" | Out-Null
+    -Description "Agentic OS inbox watcher - processes inbox requests every $IntervalMinutes min" | Out-Null
 
 Write-Host ""
 Write-Host "Inbox watcher installed and running."
